@@ -14,6 +14,10 @@ La web debe ser derrollada en Nextjs y usando las siguientes tecnologias
     - Zod: Para la validacion de formularios.
     - Tanstack Table: Para las tablas.
 
+El front debe tener los siguientes elementos - Menu: Sidebar de shadcn con las opciones - Pantalla de inicio: sera la ruta raiz / y estara en blanco
+
+Deberas agregar pantalla de carga al momento de que el front haga cualquier accion hacia el back.
+
 ## Back
 
 Deberas crear un directorio /back para el proyecto

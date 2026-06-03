@@ -18,6 +18,22 @@ Permitir registrar y consultar las fabricas de carga para que puedan ser usadas 
 
 Lo recomendado por Domain Driven Design en Front y Back
 
+## Ruta Front
+
+/Mantenedores/Fabricas
+
+## Componentes del Front
+
+    - Filtros: Se encarga de filtrar los datos de la tabla con los siguientes campos:
+        - id Fabrica
+    - Tabla: Muestra las fabricas, y debe tener las columnas:
+        - id Fabrica.
+        - Nombre Fabrica.
+        - Latitud.
+        - Longitud.
+        - Acciones: Botones de editar o eliminar.
+    - Modal de ingreso o edicion: Este se abre para ingresar o editar fabricas, tambien debe tener google maps para registrar y visualizar la ubicacion de la fabrica.
+
 ## Entidades del dominio
 
 - Fabrica

@@ -18,6 +18,22 @@ Permitir registrar y consultar los clientes de descarga para que puedan ser usad
 
 Lo recomendado por Domain Driven Design en Front y Back
 
+## Ruta Front
+
+/Mantenedores/Clientes
+
+## Componentes del Front
+
+    - Filtros: Se encarga de filtrar los datos de la tabla con los siguientes campos:
+        - id Cliente
+    - Tabla: Muestra los clientes, y debe tener las columnas:
+        - id Cliente.
+        - Nombre Cliente.
+        - Latitud.
+        - Longitud.
+        - Acciones: Botones de editar o eliminar.
+    - Modal de ingreso o edicion: Este se abre para ingresar o editar clientes, tambien debe tener google maps para registrar y visualizar la ubicacion del cliente.
+
 ## Entidades del dominio
 
 - Cliente
