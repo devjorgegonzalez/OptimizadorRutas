@@ -8,9 +8,9 @@
 
 ## Generales
 
-- Todos los metodos, modelos, componentes, rutas, etc. Deben ser en castellano.
+- Todos los metodos, modelos, componentes, rutas, etc. Deben ser en castellano y cammelcase.
 - Todo el codigo debe estar documentado.
-- Todo el codigo debe seguir la reglas de Domain Driven Design.
+- Todo el codigo debe seguir la reglas de Domain Driven Design (Front y Back).
 - Revisaras la carpeta skills.
 
 ## Front

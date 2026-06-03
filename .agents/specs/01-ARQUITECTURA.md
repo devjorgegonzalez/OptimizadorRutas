@@ -12,6 +12,7 @@ La web debe ser derrollada en Nextjs y usando las siguientes tecnologias
     - Google maps: Para los mapas.
     - React Hook Form: Para los formularios.
     - Zod: Para la validacion de formularios.
+    - Tanstack Table: Para las tablas.
 
 ## Back
 
