@@ -1,0 +1,45 @@
+services:
+  db:
+    container_name: OptimizadorRutasBd
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: optimizador_rutas
+    ports:
+      - "9903:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  back:
+    container_name: OptimizadorRutasApi
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "9902:9902"
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/optimizador_rutas?schema=public"
+      PORT: 9902
+    depends_on:
+      - db
+
+  front:
+    container_name: OptimizadorRutasWeb
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "9901:9901"
+    environment:
+      PORT: 9901
+      NEXT_PUBLIC_API_URL: "http://localhost:9902"
+      NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: "AIzaSyCVYCSjVJRc1Ak5JLrLjjDlmVax8OXQQTo"
+    depends_on:
+      - back
+
+volumes:
+  pgdata:

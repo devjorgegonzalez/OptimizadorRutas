@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Camion {
+  id             Int          @id @default(autoincrement())
+  placa          String       @unique
+  capacidad      Float
+  latitudOrigen  Float
+  longitudOrigen Float
+  latitudUltima  Float
+  longitudUltima Float
+  ruta           RutaCamion?
+  creadoEn       DateTime     @default(now())
+  actualizadoEn  DateTime     @updatedAt
+
+  @@map("camiones")
+}
+
+model Cliente {
+  id            Int      @id @default(autoincrement())
+  nombre        String   @unique
+  descripcion   String?
+  latitud       Float
+  longitud      Float
+  direccion     String?
+  activo        Boolean  @default(true)
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+
+  @@map("clientes")
+}
+
+model Fabrica {
+  id            Int      @id @default(autoincrement())
+  nombre        String   @unique
+  descripcion   String?
+  latitud       Float
+  longitud      Float
+  direccion     String?
+  activo        Boolean  @default(true)
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+
+  @@map("fabricas")
+}
+
+model RutaCamion {
+  id            Int         @id @default(autoincrement())
+  camionId      Int         @unique
+  camion        Camion      @relation(fields: [camionId], references: [id], onDelete: Cascade)
+  puntos        PuntoRuta[]
+  creadoEn      DateTime    @default(now())
+  actualizadoEn DateTime    @updatedAt
+
+  @@map("rutas_camion")
+}
+
+model PuntoRuta {
+  id            Int        @id @default(autoincrement())
+  rutaCamionId  Int
+  rutaCamion    RutaCamion @relation(fields: [rutaCamionId], references: [id], onDelete: Cascade)
+  orden         Int
+  tipoPunto     String     // "ORIGEN", "FABRICA", "CLIENTE"
+  latitud       Float
+  longitud      Float
+  descripcion   String?
+  creadoEn      DateTime   @default(now())
+  actualizadoEn DateTime   @updatedAt
+
+  @@map("puntos_ruta")
+}
+
