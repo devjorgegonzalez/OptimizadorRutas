@@ -32,7 +32,7 @@ export const SidebarVisor: React.FC<SidebarVisorProps> = ({
   const camionesSinRuta = camiones.filter(c => !rutas[c.id]);
 
   return (
-    <div className="w-full md:w-96 bg-card border-r border-border flex flex-col h-full shadow-lg">
+    <div className="w-full md:w-96 bg-card border-t md:border-t-0 md:border-r border-border flex flex-col h-[50%] md:h-full shrink-0 shadow-lg order-2 md:order-1">
       {/* Cabecera del Visor */}
       <div className="p-6 border-b border-border space-y-4">
         <div>

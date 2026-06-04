@@ -21,6 +21,7 @@ Si un camion tiene una ruta asignada esta debe poder ser eliminada
 - Si el camion tiene ruta asignada, muestra los puntos de la ruta en el mapa.
 - Si el camion tiene ruta asignada, debe mostrar la opcion de eliminar.
 - Incluye un boton para generar rutas para los camiones sin ruta asignada.
+- Incluye una leyenda flotante explicativa de todos los marcadores del mapa (Camiones con/sin ruta, Fábricas y Clientes).
 - No crea ni modifica camiones.
 - No calcula rutas optimas de forma local.
 - Se relaciona con los modulos de camiones, fabricas, clientes y optimizacion de rutas.
@@ -104,3 +105,5 @@ Lo recomendado por Domain Driven Design en Front y Back
 - Si no existe ruta asignada, el mapa solo muestra el camion.
 - Al presionar el boton de generar rutas, se optimizan y guardan las rutas de los camiones sin ruta.
 - La visualizacion responde correctamente al cambio de seleccion.
+- Se muestra una leyenda flotante en el mapa que detalla el significado visual de los marcadores para Camión con Ruta, Camión sin Ruta, Fábrica y Cliente, con soporte coherente para Google Maps y el mapa simulado (SVG).
+- La interfaz es totalmente responsiva: en pantallas de escritorio, la barra lateral y el mapa se dividen horizontalmente (izquierda/derecha). En dispositivos móviles, el contenedor se divide verticalmente (50% / 50%), posicionando el mapa en la mitad superior y la barra de control en la mitad inferior para evitar que el mapa se oculte.

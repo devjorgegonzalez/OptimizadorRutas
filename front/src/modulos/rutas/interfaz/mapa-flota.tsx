@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
-import { Info, MapPin, Truck, Factory, UserCheck } from 'lucide-react';
+import { Info, MapPin, Truck, Factory, UserCheck, X } from 'lucide-react';
 import { Camion } from '../../camiones/aplicacion/camiones.service';
 import { Cliente } from '../../clientes/aplicacion/clientes.service';
 import { Fabrica } from '../../fabricas/aplicacion/fabricas.service';
@@ -43,6 +43,7 @@ export const MapaFlota: React.FC<MapaFlotaProps> = ({
   const [useGoogleMaps, setUseGoogleMaps] = useState(false);
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
   const [apiKeyMissing, setApiKeyMissing] = useState(true);
+  const [leyendaAbierta, setLeyendaAbierta] = useState(false);
 
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
@@ -230,7 +231,7 @@ export const MapaFlota: React.FC<MapaFlotaProps> = ({
   const puntosRutaSvg = rutaSeleccionada?.puntos.map(p => aCoordenadasSvg(p.latitud, p.longitud)) || [];
 
   return (
-    <div className="flex-1 relative flex flex-col h-full bg-slate-950">
+    <div className="flex-1 relative flex flex-col h-[50%] md:h-full w-full bg-slate-950 order-1 md:order-2">
       {/* Indicador superior flotante */}
       <div className="absolute top-4 left-4 bg-slate-900/90 border border-slate-800/80 backdrop-blur-xs px-4 py-2.5 rounded-xl text-slate-300 text-xs z-10 flex items-start space-x-2 shadow-lg max-w-sm">
         <Info className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
@@ -332,7 +333,7 @@ export const MapaFlota: React.FC<MapaFlotaProps> = ({
                 style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
                 title={`Cliente: ${c.nombre}`}
               >
-                <div className="bg-green-600 hover:bg-green-500 p-1.5 rounded-full text-white shadow-lg border border-green-700 transition-transform hover:scale-110 cursor-pointer">
+                <div className="bg-blue-600 hover:bg-blue-500 p-1.5 rounded-full text-white shadow-lg border border-blue-700 transition-transform hover:scale-110 cursor-pointer">
                   <UserCheck className="w-3.5 h-3.5" />
                 </div>
                 <span className="absolute top-7 bg-slate-900/90 text-white text-[8px] px-1.5 py-0.5 rounded-sm border border-slate-700 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-30">
@@ -358,8 +359,8 @@ export const MapaFlota: React.FC<MapaFlotaProps> = ({
                   className={`p-2 rounded-full text-white shadow-xl border transition-all duration-200 group-hover:scale-110 active:scale-95
                     ${
                       tieneRuta
-                        ? 'bg-blue-600 border-blue-700 group-hover:bg-blue-500'
-                        : 'bg-destructive border-destructive/80 group-hover:bg-red-500'
+                        ? 'bg-emerald-600 border-emerald-700 group-hover:bg-emerald-500'
+                        : 'bg-rose-600 border-rose-700 group-hover:bg-rose-500'
                     }
                   `}
                 >
@@ -372,6 +373,94 @@ export const MapaFlota: React.FC<MapaFlotaProps> = ({
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Botón flotante para alternar Leyenda */}
+      <button
+        onClick={() => setLeyendaAbierta(prev => !prev)}
+        className="absolute bottom-4 right-4 bg-slate-900/95 border border-slate-800/90 hover:border-slate-700/90 text-slate-200 hover:text-white p-3 rounded-full shadow-2xl transition-all hover:scale-105 active:scale-95 z-20 cursor-pointer flex items-center justify-center"
+        title="Mostrar leyenda del mapa"
+      >
+        <Info className="w-5 h-5 text-blue-500" />
+      </button>
+
+      {/* Leyenda de Marcadores */}
+      {leyendaAbierta && (
+        <div className="absolute bottom-18 right-4 bg-slate-900/95 border border-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-2xl z-10 w-56 animate-fade-in flex flex-col gap-3">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 className="text-xs font-bold text-slate-200 uppercase tracking-widest flex items-center gap-2">
+              <MapPin className="w-3.5 h-3.5 text-blue-500" />
+              Leyenda
+            </h4>
+            <button 
+              onClick={() => setLeyendaAbierta(false)}
+              className="text-slate-400 hover:text-slate-200 p-0.5 rounded-md hover:bg-slate-800 transition-colors cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+          <div className="flex flex-col gap-2.5">
+            {/* Camión con Ruta */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shrink-0">
+                {useGoogleMaps ? (
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-xs" />
+                ) : (
+                  <Truck className="w-3.5 h-3.5" />
+                )}
+              </div>
+              <div className="text-[10px] leading-tight">
+                <p className="font-bold text-slate-200">Camión con Ruta</p>
+                <p className="text-[9px] text-slate-400">Ruta activa asignada</p>
+              </div>
+            </div>
+
+            {/* Camión sin Ruta */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 shrink-0">
+                {useGoogleMaps ? (
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-xs" />
+                ) : (
+                  <Truck className="w-3.5 h-3.5" />
+                )}
+              </div>
+              <div className="text-[10px] leading-tight">
+                <p className="font-bold text-slate-200">Camión sin Ruta</p>
+                <p className="text-[9px] text-slate-400">Solo ubicación origen</p>
+              </div>
+            </div>
+
+            {/* Fábrica */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 shrink-0">
+                {useGoogleMaps ? (
+                  <div className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-xs" />
+                ) : (
+                  <Factory className="w-3.5 h-3.5" />
+                )}
+              </div>
+              <div className="text-[10px] leading-tight">
+                <p className="font-bold text-slate-200">Fábrica (Carga)</p>
+                <p className="text-[9px] text-slate-400">Planta de carga activa</p>
+              </div>
+            </div>
+
+            {/* Cliente */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 shrink-0">
+                {useGoogleMaps ? (
+                  <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-xs" />
+                ) : (
+                  <UserCheck className="w-3.5 h-3.5" />
+                )}
+              </div>
+              <div className="text-[10px] leading-tight">
+                <p className="font-bold text-slate-200">Cliente (Entrega)</p>
+                <p className="text-[9px] text-slate-400">Punto de descarga activo</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
